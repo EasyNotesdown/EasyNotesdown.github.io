@@ -1,0 +1,404 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>XnResizeV1.11-批量修改图片尺寸大小、格式软件，开源无广，免费中文版下载</title>
+    <meta name="description" content="XnResize，XnResize是一款完全免费的图片尺寸批量修改软件，很好用可以帮助您轻松批量修改图片尺寸，除了修改图片尺寸功能之外，它还支持旋转图片、格式转换等功能。">
+    <meta name="keywords" content="XnResize,XnResize下载,XnResize破解版,XnResize(图片批量调整尺寸软件)下载">
+    <style>
+        /* 基础重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 色彩系统 */
+        :root {
+            --primary: #38b2ac;
+            --secondary: #4299e1;
+            --accent: #48bb78;
+            --light: #f7fafc;
+            --dark: #1a202c;
+        }
+
+        body {
+            font-family: 'HarmonyOS Sans SC', 'Microsoft Yahei', sans-serif;
+            line-height: 1.6;
+            background: var(--light);
+        }
+
+        /* 导航栏 */
+        .navbar {
+            padding: 1rem 2rem;
+            background: rgba(255,255,255,0.98);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        /* 主视觉区 */
+        .hero {
+            margin-top: 6rem;
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            text-align: center;
+            color: white;
+            clip-path: ellipse(130% 100% at 50% 0%);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 2.5rem;
+        }
+
+        /* 下载按钮 */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1.2rem 3rem;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 2.5rem;
+            color: white;
+            text-decoration: none;
+            border: 2px solid rgba(255,255,255,0.25);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .download-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* 功能卡片 */
+        .features {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1.2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border-left: 4px solid var(--primary);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .hero {
+                padding: 4rem 1rem;
+                margin-top: 4rem;
+                clip-path: ellipse(160% 100% at 50% 0%);
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .download-btn {
+                padding: 1rem 2rem;
+                font-size: 0.95rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+/* 新增分栏样式 */
+.feature-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-top: 4rem;
+}
+
+.screenshot-wrapper {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.screenshot-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: start;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(255,255,255,0.9);
+    border-radius: 0.8rem;
+    transition: all 0.3s;
+    border-left: 4px solid var(--primary);
+}
+
+.feature-item:hover {
+    transform: translateX(10px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .feature-columns {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .screenshot-wrapper {
+        max-width: 80%;
+        margin: 0 auto;
+    }
+}
+   /* 新增下载区块样式 */
+        .download-section {
+            background: linear-gradient(135deg, #38b2ac 0%, #4299e1 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 4rem auto;
+            max-width: 1200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .download-content {
+            color: white;
+        }
+
+        .download-heading {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .download-stats {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            min-width: 120px;
+        }
+
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 3rem;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50px;
+            color: #38b2ac;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .download-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background: white;
+        }
+
+        .download-illustration {
+            position: relative;
+            text-align: center;
+        }
+
+        .download-illustration img {
+            width: 100%;
+            max-width: 400px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .download-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .download-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>LA.init({id:"3LR3xngb0a5ct7aF",ck:"3LR3xngb0a5ct7aF"})</script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">XnResize</div>
+        <div class="nav-links">
+            <a href="#features" class="nav-link">功能特性</a>
+            <a href="https://project-2025.pages.dev/" class="nav-link">下载</a>
+            <a href="#download" class="download-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v16m0 0l4-4m-4 4l-4-4m6 8H6"/>
+                </svg>
+                立即获取
+            </a>
+        </div>
+    </nav>
+
+    <!-- 主视觉区 -->
+    <section class="hero">
+        <h1>重新定义图片批处理</h1>
+        <p>高效 • 智能 • 专业的图像处理解决方案</p>
+        <a href="https://project-2025.pages.dev/" class="download-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v16m0 0l4-4m-4 4l-4-4m6 8H6"/>
+            </svg>
+            免费下载 v1.11
+        </a>
+    </section>
+
+  <!-- 修改功能区域HTML -->
+<section class="features" id="features">
+    <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">核心功能亮点</h2>
+    <div class="feature-columns">
+        <!-- 左侧截图 -->
+        <div class="screenshot-wrapper">
+            <img src="XnResize.jpg" alt="XnResize软件界面截图">
+        </div>
+        
+        <!-- 右侧功能列表 -->
+        <div class="feature-list">
+            <div class="feature-item">
+                <div class="feature-icon">📷</div>
+                <div>
+                    <h3>批量闪电处理</h3>
+                    <p>支持上千文件同时处理，智能队列优化技术，处理速度提升300%</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">📐</div>
+                <div>
+                    <h3>智能尺寸调整</h3>
+                    <p>自定义尺寸/预设模板/智能比例缩放，支持70+输出格式转换</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">🔒</div>
+                <div>
+                    <h3>元数据保留</h3>
+                    <p>完整保留EXIF/IPTC/XMP元数据，专业摄影师首选解决方案</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">🚀</div>
+                <div>
+                    <h3>性能优化</h3>
+                    <p>多核CPU优化技术，内存占用减少40%，处理速度提升150%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <footer style="background: var(--dark); color: white; padding: 2rem; text-align: center;">
+        <div style="margin-top: 0rem;">
+             <p>本站所有内容资源均来源于网络，仅供用户交流学习与研究使用，版权归属原版权方所有</p>
+            <p>本站仅提供资源介绍下载及使用方法说明，我们尊重知识产权，呼吁大家共同维护良好的网络环境，合法使用软件。</p>
+        </div>
+    </footer>
+</body>
+</html>
